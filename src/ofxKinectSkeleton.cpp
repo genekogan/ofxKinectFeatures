@@ -107,6 +107,8 @@ int ofxKinectSkeleton::getDepth(){
 }
 
 void ofxKinectSkeleton::update(map<int, ofPoint> joints){
+    float t1 = ofGetElapsedTimeMicros();
+    
     //Initialize elements
     if (elements_.empty()) {
         for (map<int, ofPoint>::iterator it = joints.begin(); it != joints.end(); it++) {
@@ -186,8 +188,6 @@ void ofxKinectSkeleton::update(map<int, ofPoint> joints){
     //TODO solve this!!
     //yMaxHands_ = max(getRelativePositionToTorso(JOINT_RIGHT_HAND).y, getRelativePositionToTorso(JOINT_LEFT_HAND).y);
     yMaxHands_ = 0.0;
-        
-        
 //    } else {
 //        newValues_
 //        = false;
@@ -205,9 +205,11 @@ void ofxKinectSkeleton::computeJointDescriptors(int jointId, ofPoint jointPos, c
     
     //Velocity
     mocapElement->setVelocity(applyFilter(mocapElement->getPosition(), mocapElement->getVelocity(), aLpd1, bLpd1));
+    mocapElement->setVelocityMagnitude(mocapElement->getVelocity()[0].length());
     
     //Acceleration
     mocapElement->setAcceleration(applyFilter(mocapElement->getPosition(), mocapElement->getAcceleration(), aLpd2, bLpd2));
+    mocapElement->setAccelerationMagnitude(mocapElement->getAcceleration()[0].length());
     
     //Acceleration along trajectory
     ofPoint acc = mocapElement->getAcceleration()[0];
@@ -343,6 +345,12 @@ float ofxKinectSkeleton::getVelocityMagnitude(int j){
     }
 }
 
+float & ofxKinectSkeleton::getVelocityMagnitudeRef(int j){
+    if (getElement(j)) {
+        return getElement(j)->getVelocityMagnitudeRef()[0];
+    }
+}
+
 float ofxKinectSkeleton::getVelocityMean(int j, int frames){
     if (getElement(j)) {
         float sum = 0.0;
@@ -358,6 +366,13 @@ float ofxKinectSkeleton::getVelocityMean(int j, int frames){
         return 0.0;
     }
 }
+
+float & ofxKinectSkeleton::getVelocityMeanRef(int j){
+    if (getElement(j)) {
+        return getElement(j)->getVelocityMeanRef()[0];
+    }
+}
+
 
 ofPoint ofxKinectSkeleton::getAcceleration(int j){
     if (getElement(j)) {
@@ -393,6 +408,12 @@ float ofxKinectSkeleton::getAccelerationMagnitude(int j){
     }
 }
 
+float & ofxKinectSkeleton::getAccelerationMagnitudeRef(int j){
+    if (getElement(j)) {
+        return getElement(j)->getAccelerationMagnitudeRef()[0];
+    }
+}
+
 float ofxKinectSkeleton::getAccelerationMean(int j, int frames){
     if (getElement(j)) {
         float sum = 0.0;
@@ -406,6 +427,12 @@ float ofxKinectSkeleton::getAccelerationMean(int j, int frames){
         }
     } else {
         return 0.0;
+    }
+}
+
+float & ofxKinectSkeleton::getAccelerationMeanRef(int j){
+    if (getElement(j)) {
+        return getElement(j)->getAccelerationMeanRef()[0];
     }
 }
 
@@ -521,4 +548,67 @@ float ofxKinectSkeleton::getYMaxHands(){
 
 bool ofxKinectSkeleton::isNewDataAvailable(){
     return newValues_;
+}
+
+
+
+/////// REFERENCES
+
+ofPoint & ofxKinectSkeleton::getPositionRef(int j){
+    if (getElement(j)) {
+        return getElement(j)->getPositionRef()[0];
+    }
+}
+
+ofPoint & ofxKinectSkeleton::getPositionFilteredRef(int j){
+    if (getElement(j)) {
+        return getElement(j)->getPositionFilteredRef()[0];
+    }
+}
+
+ofPoint & ofxKinectSkeleton::getVelocityRef(int j){
+    if (getElement(j)) {
+        return getElement(j)->getVelocityRef()[0];
+    }
+}
+
+ofPoint & ofxKinectSkeleton::getAccelerationRef(int j){
+    if (getElement(j)) {
+        return getElement(j)->getAccelerationRef()[0];
+    }
+}
+
+float & ofxKinectSkeleton::getAccelerationTrajectoryRef(int j){
+    if (getElement(j)){
+        return getElement(j)->getAccelerationTrajectoryRef()[0];
+    }
+}
+
+
+float & ofxKinectSkeleton::getDistanceToTorsoRef(int j){
+    if (getElement(j)){
+        return getElement(j)->getDistanceToTorsoRef()[0];
+    }
+}
+
+ofPoint & ofxKinectSkeleton::getRelativePositionToTorsoRef(int j){
+    if (getElement(j)) {
+        return getElement(j)->getRelativePositionToTorsoRef()[0];
+    }
+}
+
+float & ofxKinectSkeleton::getQomRef(){
+    return qom_;
+}
+
+float & ofxKinectSkeleton::getCIRef(){
+    return ci_;
+}
+
+float & ofxKinectSkeleton::getSymmetryRef(){
+    return symmetry_;
+}
+
+float & ofxKinectSkeleton::getYMaxHandsRef(){
+    return yMaxHands_;
 }

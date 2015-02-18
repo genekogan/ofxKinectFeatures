@@ -48,35 +48,47 @@ public:
     //DESCIPTOR GETTERS
     //JOINT DESCRIPTORS
     ofPoint getPosition(int j);
+    ofPoint & getPositionRef(int j);
     vector<ofPoint> getPositionHistory(int j);
     vector<ofPoint> getPositionHistory(int j, int frames);
     
     ofPoint getPositionFiltered(int j);
+    ofPoint & getPositionFilteredRef(int j);
     vector<ofPoint> getPositionFilteredHistory(int j);
     vector<ofPoint> getPositionFilteredHistory(int j, int frames);
     
     ofPoint getVelocity(int j);
+    ofPoint & getVelocityRef(int j);
     vector<ofPoint> getVelocityHistory(int j);
     vector<ofPoint> getVelocityHistory(int j, int frames);
     float getVelocityMagnitude(int j);
+    float & getVelocityMagnitudeRef(int j);
     float getVelocityMean(int j, int frames = 30);
+    float & getVelocityMeanRef(int j);
     
     ofPoint getAcceleration(int j);
+    ofPoint & getAccelerationRef(int j);
     vector<ofPoint> getAccelerationHistory(int j);
     vector<ofPoint> getAccelerationHistory(int j, int frames);
     float getAccelerationMagnitude(int j);
+    float & getAccelerationMagnitudeRef(int j);
     float getAccelerationMean(int j, int frames = 30);
+    float & getAccelerationMeanRef(int j);
     
     float getAccelerationTrajectory(int j);
+    float & getAccelerationTrajectoryRef(int j);
     vector<float> getAccelerationTrajectoryHistory(int j);
     vector<float> getAccelerationTrajectoryHistory(int j, int frames);
     float getAccelerationTrajectoryMean(int j, int frames = 30);
+    //float & getAccelerationTrajectoryMeanRef(int j, int frames = 30);
     
     float getDistanceToTorso(int j);
+    float & getDistanceToTorsoRef(int j);
     vector<float> getDistanceToTorsoHistory(int j);
     vector<float> getDistanceToTorsoHistory(int j, int frames);
     
     ofPoint getRelativePositionToTorso(int j);
+    ofPoint & getRelativePositionToTorsoRef(int j);
     vector<ofPoint> getRelativePositionToTorsoHistory(int j);
     vector<ofPoint> getRelativePositionToTorsoHistory(int j, int frames);
     
@@ -85,7 +97,12 @@ public:
     float getCI();
     float getSymmetry();
     float getYMaxHands();
-    
+
+    float & getQomRef();
+    float & getCIRef();
+    float & getSymmetryRef();
+    float & getYMaxHandsRef();
+
     bool isNewDataAvailable();
     
 private:
